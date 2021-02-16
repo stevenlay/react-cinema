@@ -73,9 +73,9 @@ jobs:
         uses: reggionick/s3-deploy@v3
         with:
           folder: build
-          bucket: $ {{S3_BUCKET_ENV}}
+          bucket: '${AWS_BUCKET_ENV}'
           bucket-region: ${{ secrets.AWS_REGION }}
-          dist-id: ${{ DISTRIBUTION_ID }}
+          dist-id: '${DISTRIBUTION_ID}'
           invalidation: /
           delete-removed: true
           no-cache: true
