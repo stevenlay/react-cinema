@@ -62,5 +62,6 @@ jobs:
             echo "AWS_BUCKET_ENV=${secrets.AWS_BUCKET_STAGING}" >> $GITHUB_ENV
           else
             echo "AWS_BUCKET_ENV=${secrets.AWS_BUCKET_DEV}" >> $GITHUB_ENV
+          fi
 
       - run: aws s3 sync ./build s3://${{ AWS_BUCKET_ENV }}
