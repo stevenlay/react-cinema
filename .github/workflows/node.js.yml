@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev, staging]
   pull_request:
     branches: [main]
 
@@ -51,4 +51,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET_PRODUCTION }}
+      - name: Set environment bucket
+        run: |
+          echo "GIT_BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          if ["${GIT_BRANCH}" == "main"]
+          then
+            echo "AWS_BUCKET_ENV=${secrets.AWS_BUCKET_PRODUCTION}" >> $GITHUB_ENV
+          elif ["${GIT_BRANCH}" == "staging"]
+          then
+            echo "AWS_BUCKET_ENV=${secrets.AWS_BUCKET_STAGING}" >> $GITHUB_ENV
+          else
+            echo "AWS_BUCKET_ENV=${secrets.AWS_BUCKET_DEV}" >> $GITHUB_ENV
+
+      - run: aws s3 sync ./build s3://${{ secrets.AWS_BUCKET_ENV }}
