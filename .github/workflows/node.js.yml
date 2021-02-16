@@ -42,8 +42,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build
-        run: npm build
-
       - run: npm run build --if-present
       - run: npm test
+
+      - name: Deploy to S3
+        uses: lbertenasco/s3-deploy@v1
+        with:
+          folder: build
+          bucket: ${{ secrets.AWS_BUCKET_PRODUCTION }}
+          dist-id: ${{ secrets.PRODUCTION_DISTRIBUTION_ID }}
+          invalidation: / *
