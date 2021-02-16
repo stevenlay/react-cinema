@@ -70,13 +70,13 @@ jobs:
           fi
 
       - name: Deploy
-          uses: reggionick/s3-deploy@v3
-          with:
-            folder: build
-            bucket: $ {{S3_BUCKET_ENV}}
-            bucket-region: ${{ secrets.AWS_REGION }}
-            dist-id: ${{ DISTRIBUTION_ID }}
-            invalidation: /
-            delete-removed: true
-            no-cache: true
-            private: true
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: build
+          bucket: $ {{S3_BUCKET_ENV}}
+          bucket-region: ${{ secrets.AWS_REGION }}
+          dist-id: ${{ DISTRIBUTION_ID }}
+          invalidation: /
+          delete-removed: true
+          no-cache: true
+          private: true
